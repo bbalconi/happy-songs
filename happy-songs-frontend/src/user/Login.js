@@ -4,8 +4,10 @@ import {
   Redirect, Link
 } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 
-class Login extends Component{
+
+var Login = observer(class Login extends Component{
   constructor(){
     super();
     this.inputemailChange = this.inputemailChange.bind(this);
@@ -22,28 +24,18 @@ class Login extends Component{
   }
   
   handleLogin() {
-    // this makes an obj to retun
-    this.props.submitLogin({
+    this.props.userStore.submitLogin({
       email: this.state.email,
       password: this.state.password
-    });
-    console.log("HI");
-    console.log(this.props);
-    console.log("HI AGain");
-    console.log(this.state);
-
-    setTimeout(()=>{
-      if(this.props.success){
+    }).then(()=>{
+      if (this.props.userStore.user.success) {
         this.props.history.push("/"); 
-      }else{
+      } else {
         this.setState({
-          link: <p>QUIT FAILING</p>
+          link: <p>Error.</p>
         })
       }
-    }, 200);
-   
-
-    // this.props.history.push("/");
+    })
   }
   inputemailChange(event) {
     this.setState({email: event.target.value});
@@ -71,6 +63,6 @@ class Login extends Component{
       </div>
     );
   };
-}
+})
 
-export default withRouter(Login);
+export default withRouter(inject('userStore')(Login));

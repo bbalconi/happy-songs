@@ -3,8 +3,10 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import {
   Redirect
 } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
-class SignUp extends Component{
+
+var SignUp = observer(class SignUp extends Component{
   constructor() {
     super();
     this.inputfirstNameChange = this.inputfirstNameChange.bind(this);
@@ -20,17 +22,17 @@ class SignUp extends Component{
       message: ''
     }
   }
-//submitSignup() is in App.js
   handleSignup() {
-    // this makes an obj to retun
-    this.props.submitSignup({
+    this.props.userStore.submitSignup({
       firstName: this.state.firstName,      
       lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password
-    });
-    // this.props.history.push("/");
+    }).then(()=>{
+    this.props.history.push("/");
+    })
   }
+
   inputfirstNameChange(event) {
     this.setState({firstName: event.target.value});
   }
@@ -70,6 +72,6 @@ class SignUp extends Component{
       </div>
     );
   };
-}
+});
 
-export default withRouter(SignUp);
+export default withRouter(inject('userStore')(SignUp));

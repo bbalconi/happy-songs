@@ -113,39 +113,15 @@ app.post("/signup", (req, res, next) => {
         if (error) {
           console.log(error);
           next(error);
-          //this.setState({message: message});
         } else {
-          //res.json(userReturned);
           res.json({
-            userReturned: userReturned,
+            user: userReturned,
             found: true,
             message: "Success",
             success: true
           });
-
-        //this.props.history.push("/");
         }
       });
-
-      // if (user) {
-      //   if (email === user.email) {
-      //     res.json({
-      //       found: true,
-      //       message: "Get the F**k out of here! that email is in use.",
-      //       success: false
-      //     });
-      //   } else {
-
-      //   }
-      // } else {
-      //   res.json({
-      //     found: false,
-      //     message: "No such user",
-      //     success: false
-      //   });
-      // }
-
-
     }
   });
     
